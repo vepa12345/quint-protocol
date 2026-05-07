@@ -1,4 +1,4 @@
-# QUINT v 5.0 (Multilayer Protocol)
+# QUINT v 5.0 Quick Unified Information Node Transfer (Multilayer Protocol)
 
 **QUINT** is a fault-tolerant communication protocol designed to **save lives** in extreme environments: high interference, zero visibility, silent operations, or total radio failure.
 
