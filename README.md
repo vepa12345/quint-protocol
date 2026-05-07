@@ -33,8 +33,8 @@ Used for transmission via light, sound, vibration, or pressure.
 
 ### VIS-QUINT (Visual/Tactile Layer)
 Transmission via palm strikes to the chest.
-* **Height (Node):** Shoulder (N1), Collarbone (N2), Chest (N3), Solar Plexus (N4), Stomach (N5).
-* **Impulse (Value):** Number of strikes in the chosen zone.
+* **Height (Node):** Head / Helmet (N1), Shoulder (N2), Chest (N3), Stomach / Belt (N4), Thigh (N5).
+* **Impulse (Value):** Number of strikes in the chosen zone. Also it is allowed to show by fingers, only if the visibility clear.
 
 ## 4. Operational Rules
 * **Triple Redundancy**: Every packet is transmitted three times. A packet is valid if 2 out of 3 iterations match.
