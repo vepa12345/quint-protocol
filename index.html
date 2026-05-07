@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>QUINT v5.0 — Живой симулятор протокола спасения</title>
+    <title>QUINT v5.0 — Интерактивный тренажёр протокола спасения</title>
     <style>
         * {
             margin: 0;
@@ -13,21 +13,21 @@
 
         body {
             background: #0a0f1e;
-            font-family: 'Segoe UI', 'Roboto', 'Noto Sans', system-ui, -apple-system, sans-serif;
+            font-family: 'Segoe UI', 'Roboto', system-ui, -apple-system, sans-serif;
             color: #eef2ff;
             line-height: 1.5;
             padding: 2rem 1.5rem;
         }
 
         .container {
-            max-width: 1300px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
-        /* Hero section */
+        /* Hero */
         .hero {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
         }
 
         .badge {
@@ -37,7 +37,6 @@
             border-radius: 2rem;
             font-size: 0.75rem;
             font-weight: 500;
-            letter-spacing: 0.5px;
             color: #7dd3fc;
             margin-bottom: 1rem;
             border: 1px solid #2d3a4e;
@@ -50,40 +49,38 @@
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
-            margin-bottom: 0.5rem;
             letter-spacing: -0.02em;
         }
 
         .sub {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: #9ca3af;
             max-width: 700px;
-            margin: 0 auto 2rem auto;
+            margin: 0 auto;
         }
 
         /* сетка */
         .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-bottom: 3rem;
+            gap: 1.5rem;
+            margin: 2rem 0;
         }
 
         .card {
             background: #111827;
-            border-radius: 1.75rem;
+            border-radius: 1.5rem;
             border: 1px solid #1f2a3e;
             overflow: hidden;
             box-shadow: 0 20px 35px -12px rgba(0,0,0,0.5);
-            transition: transform 0.1s ease;
         }
 
         .card-header {
-            padding: 1.2rem 1.5rem;
+            padding: 1rem 1.5rem;
             background: #0f172a;
             border-bottom: 1px solid #1e293b;
             font-weight: 700;
-            font-size: 1.35rem;
+            font-size: 1.2rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -93,71 +90,90 @@
             padding: 1.5rem;
         }
 
-        /* таблица матрицы */
+        /* Манекен */
+        .mannequin {
+            background: #030712;
+            border-radius: 1rem;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .body-zones {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .zone {
+            background: #1e293b;
+            border-radius: 2rem;
+            padding: 0.4rem 1rem;
+            width: 80%;
+            text-align: center;
+            transition: all 0.1s ease;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .zone.active {
+            background: #3b82f6;
+            box-shadow: 0 0 0 2px #60a5fa;
+            transform: scale(1.02);
+        }
+
+        /* Таблица */
         .matrix-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
 
         .matrix-table th, .matrix-table td {
             text-align: left;
-            padding: 0.7rem 0.5rem;
+            padding: 0.5rem 0.3rem;
             border-bottom: 1px solid #1e293b;
         }
 
         .matrix-table th {
             color: #7dd3fc;
-            font-weight: 600;
         }
 
         .node-code {
             font-family: monospace;
-            font-weight: bold;
             background: #00000055;
-            padding: 0.2rem 0.4rem;
-            border-radius: 8px;
-            font-size: 0.8rem;
+            padding: 0.2rem 0.3rem;
+            border-radius: 6px;
         }
 
-        .value-badge {
-            background: #1e2a3a;
-            padding: 0.2rem 0.5rem;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 500;
-            display: inline-block;
-        }
-
-        /* кнопки узлов */
+        /* Кнопки узлов */
         .node-panel {
             display: flex;
             flex-wrap: wrap;
-            gap: 1rem;
-            margin-bottom: 2rem;
+            gap: 0.8rem;
+            margin: 1rem 0;
         }
 
         .node-group {
             flex: 1;
-            min-width: 100px;
+            min-width: 80px;
             background: #0f172a;
-            border-radius: 1.5rem;
-            padding: 0.8rem;
+            border-radius: 1rem;
+            padding: 0.5rem;
             text-align: center;
         }
 
         .node-title {
             font-weight: 700;
-            margin-bottom: 0.75rem;
-            font-size: 0.9rem;
-            letter-spacing: 0.5px;
-            color: #cbd5e1;
+            font-size: 0.75rem;
+            margin-bottom: 0.5rem;
         }
 
         .val-buttons {
             display: flex;
             justify-content: center;
-            gap: 0.6rem;
+            gap: 0.3rem;
         }
 
         .val-btn {
@@ -165,383 +181,336 @@
             border: none;
             color: white;
             font-weight: 600;
-            font-size: 1.1rem;
-            width: 44px;
-            height: 44px;
-            border-radius: 60px;
+            width: 36px;
+            height: 36px;
+            border-radius: 30px;
             cursor: pointer;
-            transition: all 0.1s;
-            font-family: monospace;
-        }
-
-        .val-btn:hover {
-            background: #2d3a5e;
-            transform: scale(1.02);
+            font-size: 0.9rem;
         }
 
         .val-btn.active {
             background: #3b82f6;
-            box-shadow: 0 0 0 2px #ffffff40;
         }
 
+        /* Сигналы */
         .signal-screen {
             background: #030712;
-            border-radius: 1.25rem;
-            padding: 1rem 1.2rem;
-            margin: 1.2rem 0;
-            font-family: 'Courier New', monospace;
-            font-size: 1.3rem;
-            font-weight: bold;
-            border-left: 5px solid #3b82f6;
-        }
-
-        .translated {
-            background: #0f172a;
-            padding: 0.8rem;
             border-radius: 1rem;
-            font-size: 1rem;
-        }
-
-        .inline-code {
-            background: #00000066;
+            padding: 0.8rem;
             font-family: monospace;
-            padding: 0.2rem 0.4rem;
-            border-radius: 6px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: center;
+            margin: 0.8rem 0;
+            border-left: 4px solid #3b82f6;
         }
 
-        button.small-cmd {
+        /* Кнопки */
+        .btn-primary {
+            background: #3b82f6;
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 0.2rem;
+        }
+
+        .btn-secondary {
             background: #334155;
             border: none;
             color: white;
-            padding: 0.4rem 0.9rem;
+            padding: 0.4rem 0.8rem;
             border-radius: 2rem;
             font-size: 0.75rem;
-            font-weight: 500;
-            margin: 0.2rem;
             cursor: pointer;
-            transition: 0.05s linear;
         }
 
-        button.small-cmd:active {
-            background: #1e293b;
-        }
-
-        .flex-btns {
+        .flex-row {
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
-            margin: 1rem 0;
+            align-items: center;
+            margin: 0.5rem 0;
         }
 
-        .input-group {
-            margin-top: 1.2rem;
-        }
-
-        input, select {
+        .training-area {
             background: #0f172a;
-            border: 1px solid #2d3a5e;
-            color: white;
-            padding: 0.7rem 1rem;
-            border-radius: 2rem;
-            width: 100%;
-            font-family: monospace;
-            font-size: 1rem;
-        }
-
-        .scenario-panel {
-            background: #0f172a;
-            border-radius: 1.25rem;
+            border-radius: 1rem;
             padding: 1rem;
             margin-top: 1rem;
         }
 
         footer {
             text-align: center;
-            margin-top: 3rem;
+            margin-top: 2rem;
             color: #4b5563;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
         }
 
-        hr {
-            border-color: #1e293b;
-            margin: 2rem 0;
-        }
-
-        @media (max-width: 750px) {
-            .grid-2 {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-            h1 { font-size: 2rem; }
+        @media (max-width: 800px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            h1 { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="hero">
-        <div class="badge">⚡ PULSE-QUINT / VIS-QUINT v5.0</div>
-        <h1>QUINT · испробуй протокол</h1>
-        <div class="sub">Кодируй и декодируй сигналы спасения. Точки, тире, тактильные зоны — испытывай живой QUINT.</div>
+        <div class="badge">⚡ QUINT v5.0 — интерактивный тренажёр</div>
+        <h1>QUINT: Когда слова недоступны,<br>связь продолжается</h1>
+        <div class="sub">Нажимай на узлы — учись передавать сигналы через свет, звук и касание</div>
     </div>
 
     <div class="grid-2">
-        <!-- левая колонка: матрица + теория -->
+        <!-- Левая колонка: матрица + манекен -->
         <div class="card">
-            <div class="card-header">📡 Базовая матрица 5x3</div>
+            <div class="card-header">📡 Базовая матрица 5x3 + манекен</div>
             <div class="card-body">
                 <table class="matrix-table">
-                    <thead>
-                        <tr><th>Узел (зона)</th><th>Значение 1</th><th>Значение 2</th><th>Значение 3</th></tr>
-                    </thead>
+                    <thead><tr><th>Узел</th><th>Значение 1</th><th>Значение 2</th><th>Значение 3</th></tr></thead>
                     <tbody>
                         <tr><td><strong>N1 СТАТУС</strong> <span class="node-code">.</span></td><td>РАБОТА</td><td>ВЫЗОВ</td><td>ОЖИДАНИЕ</td></tr>
-                        <tr><td><strong>N2 ДИСТАНЦИЯ</strong> <span class="node-code">..</span></td><td>ВПЛОТНУЮ (0-30м)</td><td>СРЕДНЯЯ</td><td>ДАЛЕКО</td></tr>
+                        <tr><td><strong>N2 ДИСТАНЦИЯ</strong> <span class="node-code">..</span></td><td>ВПЛОТНУЮ</td><td>СРЕДНЯЯ</td><td>ДАЛЕКО</td></tr>
                         <tr><td><strong>N3 УГРОЗА</strong> <span class="node-code">...</span></td><td>НУЖНА ПОМОЩЬ</td><td>ТРАВМА</td><td>ВЗРЫВ / ОГОНЬ</td></tr>
                         <tr><td><strong>N4 УРОВЕНЬ</strong> <span class="node-code">....</span></td><td>ВОВЛЕЧЕН</td><td>ОБНАРУЖЕН</td><td>НАБЛЮДАЮ</td></tr>
                         <tr><td><strong>N5 СЕКТОР</strong> <span class="node-code">.....</span></td><td>ПЕРЕД СОБОЙ</td><td>ФЛАНГ</td><td>ТЫЛ</td></tr>
                     </tbody>
                 </table>
-                <div class="scenario-panel" style="margin-top: 1.2rem;">
-                    <div style="font-size:0.8rem; opacity:0.8;">💡 <strong>Пульс-код:</strong> Точки = номер узла, Тире = значение.<br>
-                    🖐️ <strong>VIS-QUINT:</strong> Удары по зонам (голова, плечо, грудь, живот, бедро).</div>
+
+                <div class="mannequin">
+                    <div class="body-zones" id="mannequinZones">
+                        <div class="zone" data-node="N1">🔴 ГОЛОВА / ШЛЕМ</div>
+                        <div class="zone" data-node="N2">🟠 ПЛЕЧО</div>
+                        <div class="zone" data-node="N3">🟢 ГРУДЬ</div>
+                        <div class="zone" data-node="N4">🟡 ЖИВОТ / РЕМЕНЬ</div>
+                        <div class="zone" data-node="N5">🔵 БЕДРО</div>
+                    </div>
+                    <div style="font-size:0.7rem; margin-top:0.5rem;">✋ VIS-QUINT: зоны для ударов</div>
                 </div>
             </div>
         </div>
 
-        <!-- правая колонка: ИНТЕРАКТИВНЫЙ КОДЕР/ДЕКОДЕР -->
+        <!-- Правая колонка: конструктор -->
         <div class="card">
-            <div class="card-header">⚙️ Симулятор «Отправитель / приёмник»</div>
+            <div class="card-header">🎮 Конструктор сигналов</div>
             <div class="card-body">
-                <div style="margin-bottom: 1rem; display: flex; gap: 0.8rem; align-items: baseline;">
-                    <span style="font-weight:600;">🔧 Режим:</span>
-                    <button id="modeEncoderBtn" class="small-cmd" style="background:#3b82f6;">Передатчик (кодировать)</button>
-                    <button id="modeDecoderBtn" class="small-cmd">Приёмник (декодировать)</button>
+                <div class="node-panel" id="nodePanel">
+                    <!-- JS сгенерирует кнопки -->
                 </div>
 
-                <!-- БЛОК ПЕРЕДАТЧИКА (КНОПКИ) -->
-                <div id="encoderBlock">
-                    <div class="node-panel">
-                        <div class="node-group"><div class="node-title">N1 СТАТУС</div><div class="val-buttons" data-node="N1"><button class="val-btn" data-val="1">1</button><button class="val-btn" data-val="2">2</button><button class="val-btn" data-val="3">3</button></div></div>
-                        <div class="node-group"><div class="node-title">N2 ДИСТАНЦ.</div><div class="val-buttons" data-node="N2"><button class="val-btn" data-val="1">1</button><button class="val-btn" data-val="2">2</button><button class="val-btn" data-val="3">3</button></div></div>
-                        <div class="node-group"><div class="node-title">N3 УГРОЗА</div><div class="val-buttons" data-node="N3"><button class="val-btn" data-val="1">1</button><button class="val-btn" data-val="2">2</button><button class="val-btn" data-val="3">3</button></div></div>
-                        <div class="node-group"><div class="node-title">N4 УРОВЕНЬ</div><div class="val-buttons" data-node="N4"><button class="val-btn" data-val="1">1</button><button class="val-btn" data-val="2">2</button><button class="val-btn" data-val="3">3</button></div></div>
-                        <div class="node-group"><div class="node-title">N5 СЕКТОР</div><div class="val-buttons" data-node="N5"><button class="val-btn" data-val="1">1</button><button class="val-btn" data-val="2">2</button><button class="val-btn" data-val="3">3</button></div></div>
-                    </div>
-                    <!-- Команды быстрые -->
-                    <div class="flex-btns">
-                        <button class="small-cmd cmd-quick" data-cmd="COPY">📋 COPY (.. .. ..)</button>
-                        <button class="small-cmd cmd-quick" data-cmd="CANCEL">❌ CANCEL (... ... ...)</button>
-                        <button class="small-cmd cmd-quick" data-cmd="REPEAT">🔄 REPEAT (.... ....)</button>
-                        <button class="small-cmd cmd-quick" data-cmd="POLICE">🚔 ПОЛИЦИЯ (. .. ...)</button>
-                        <button class="small-cmd cmd-quick" data-cmd="MEDIC">🩺 МЕДИК (.. ... .)</button>
-                        <button class="small-cmd cmd-quick" data-cmd="FIRE">🔥 ПОЖАРНЫЕ (... . ..)</button>
-                    </div>
+                <div class="signal-screen" id="pulseDisplay">— · —</div>
+                <div class="signal-screen" id="textDisplay" style="font-size:1rem;">💡 Нажми узел и значение</div>
 
-                    <div class="signal-screen" id="pulseDisplay">— · —</div>
-                    <div class="translated" id="translatedDisplay">🤚 Нажмите узел + значение, чтобы сформировать сигнал QUINT.</div>
-                    <div class="translated" id="tactileDisplay" style="margin-top: 0.5rem;">✋ Тактильный слой: выберите зону для VIS-QUINT</div>
+                <div class="flex-row">
+                    <button id="playSoundBtn" class="btn-secondary">🔊 Воспроизвести сигнал (звук/вибрация)</button>
+                    <button id="interruptBtn" class="btn-secondary">⚠️ Прервать связь (Single Dash Rule)</button>
                 </div>
 
-                <!-- БЛОК ПРИЁМНИКА (декодирование) -->
-                <div id="decoderBlock" style="display: none;">
-                    <div class="input-group">
-                        <label>📟 Введите пульс-код (точки/тире) :</label>
-                        <input type="text" id="pulseInput" placeholder="Пример: .. ---  или  ... --  или .... ...">
-                        <div class="flex-btns" style="margin-top: 0.5rem;">
-                            <button id="decodePulseBtn" class="small-cmd">🔍 Декодировать</button>
-                        </div>
+                <div class="training-area" id="trainingArea">
+                    <strong>🎓 Тренировка «Тройное резервирование»</strong><br>
+                    <span id="trainingPrompt">Нажми «Начать тренировку»</span>
+                    <div class="flex-row" style="margin-top:0.5rem;">
+                        <button id="startTraining" class="btn-primary">Начать тренировку</button>
+                        <button id="trainingReply" class="btn-secondary" disabled>Повторить пакет</button>
                     </div>
-                    <div class="input-group">
-                        <label>🖐️ ИЛИ тактильный сигнал (удары по зоне):</label>
-                        <input type="text" id="tactileInput" placeholder="Пример: голова 1 / грудь 3 / плечо 2">
-                        <button id="decodeTactileBtn" class="small-cmd" style="margin-top: 0.5rem;">🖐️ Перевести</button>
-                    </div>
-                    <div class="signal-screen" id="decoderResult">Результат появится здесь</div>
-                    <div class="translated">💡 Поддерживаются форматы: <span class="inline-code">.. ---</span> (N2 V3), <span class="inline-code">... --</span> (N3 V2), команды COPY/CANCEL по точкам.</div>
+                    <div id="trainingResult" style="margin-top:0.5rem; font-size:0.8rem;"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Секция сценариев и тестирования chaining -->
+    <!-- Третья секция: сценарии -->
     <div class="card">
-        <div class="card-header">🧩 Stream Chaining — попробуй цепочку узлов</div>
+        <div class="card-header">🧩 Сценарии и цепочки (Chaining)</div>
         <div class="card-body">
-            <div class="flex-btns" style="justify-content: left;">
-                <button id="scenarioFire" class="small-cmd">🔥 ОГОНЬ + ФЛАНГ (N3-V3, N5-V2)</button>
-                <button id="scenarioMedic" class="small-cmd">🆘 МЕДИК + НУЖНА ПОМОЩЬ (MEDIC Header + N3-V1)</button>
-                <button id="scenarioRetreat" class="small-cmd">⬅️ ОТХОД: СТАТУС ОЖИДАНИЕ + СЕКТОР ТЫЛ (N1-V3, N5-V3)</button>
-                <button id="clearChain" class="small-cmd">🗑️ Очистить симулятор передатчика</button>
+            <div class="flex-row">
+                <button id="scenarioFire" class="btn-secondary">🔥 ОГОНЬ + ФЛАНГ</button>
+                <button id="scenarioMedic" class="btn-secondary">🆘 МЕДИК + ПОМОЩЬ</button>
+                <button id="scenarioRetreat" class="btn-secondary">⬅️ ОТХОД (тыл)</button>
             </div>
-            <div id="chainLog" style="background: #0a0f1a; border-radius: 1rem; padding: 0.8rem; margin-top: 0.7rem; font-family: monospace; font-size: 0.85rem;">
-                📡 Цепочка сообщений будет показана здесь при нажатии на сценарий. Завершай COPY.
+            <div id="chainLog" style="background:#0a0f1a; border-radius:1rem; padding:0.8rem; margin-top:0.8rem; font-family:monospace; font-size:0.8rem;">
+                📡 Здесь будут цепочки сообщений. Завершай командой COPY.
             </div>
         </div>
     </div>
+
     <footer>
-        QUINT: Quick Unified Information Node Transfer — MIT license. Симулятор демонстрирует ядро протокола. «Когда слова недоступны, связь продолжается».
+        QUINT: Quick Unified Information Node Transfer — MIT License<br>
+        Тренажёр обучает живучести: Single Dash Rule, тройное резервирование, VIS-QUINT.
     </footer>
 </div>
 
 <script>
-    // Словари
+    // Данные
     const nodeNames = { N1: "СТАТУС", N2: "ДИСТАНЦИЯ", N3: "УГРОЗА", N4: "УРОВЕНЬ", N5: "СЕКТОР" };
     const nodePulse = { N1: ".", N2: "..", N3: "...", N4: "....", N5: "....." };
-    const valueNames = {
-        1: { N1: "РАБОТА", N2: "ВПЛОТНУЮ (0-30м)", N3: "НУЖНА ПОМОЩЬ", N4: "ВОВЛЕЧЕН", N5: "ПЕРЕД СОБОЙ" },
-        2: { N1: "ВЫЗОВ (Тревога)", N2: "СРЕДНЯЯ", N3: "ТРАВМА", N4: "ОБНАРУЖЕН", N5: "ФЛАНГ" },
-        3: { N1: "ОЖИДАНИЕ", N2: "ДАЛЕКО", N3: "ВЗРЫВ / ОГОНЬ", N4: "НАБЛЮДАЮ", N5: "ТЫЛ" }
-    };
     const valueDash = { 1: "-", 2: "--", 3: "---" };
+    const valueText = {
+        1: { N1:"РАБОТА", N2:"ВПЛОТНУЮ", N3:"НУЖНА ПОМОЩЬ", N4:"ВОВЛЕЧЕН", N5:"ПЕРЕД СОБОЙ" },
+        2: { N1:"ВЫЗОВ", N2:"СРЕДНЯЯ", N3:"ТРАВМА", N4:"ОБНАРУЖЕН", N5:"ФЛАНГ" },
+        3: { N1:"ОЖИДАНИЕ", N2:"ДАЛЕКО", N3:"ВЗРЫВ/ОГОНЬ", N4:"НАБЛЮДАЮ", N5:"ТЫЛ" }
+    };
 
-    function buildPulse(node, val) {
-        return nodePulse[node] + " " + valueDash[val];
+    let currentNode = "N1";
+    let currentVal = 1;
+
+    function updateUI(node, val) {
+        currentNode = node;
+        currentVal = val;
+        const pulse = nodePulse[node] + " " + valueDash[val];
+        const text = `${nodeNames[node]}: ${valueText[val][node]}`;
+        document.getElementById('pulseDisplay').innerText = pulse;
+        document.getElementById('textDisplay').innerHTML = `📨 ${text}`;
+
+        // Подсветка манекена
+        document.querySelectorAll('.zone').forEach(z => z.classList.remove('active'));
+        const activeZone = document.querySelector(`.zone[data-node="${node}"]`);
+        if(activeZone) activeZone.classList.add('active');
     }
 
-    function translatePulseToText(pulseStr) {
-        let clean = pulseStr.trim().replace(/\s+/g, ' ');
-        let parts = clean.split(' ');
-        if(parts.length !== 2) return null;
-        let dots = parts[0];
-        let dashes = parts[1];
-        let node = null;
-        for(let [key, code] of Object.entries(nodePulse)) {
-            if(code === dots) { node = key; break; }
+    // Генерация кнопок
+    const panel = document.getElementById('nodePanel');
+    for(let node of ['N1','N2','N3','N4','N5']) {
+        const group = document.createElement('div');
+        group.className = 'node-group';
+        group.innerHTML = `<div class="node-title">${nodeNames[node]}</div><div class="val-buttons" data-node="${node}"></div>`;
+        const valDiv = group.querySelector('.val-buttons');
+        for(let v=1; v<=3; v++) {
+            const btn = document.createElement('button');
+            btn.className = 'val-btn';
+            btn.innerText = v;
+            btn.onclick = () => {
+                updateUI(node, v);
+                document.querySelectorAll('.val-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            };
+            valDiv.appendChild(btn);
         }
-        if(!node) return null;
-        let dashCount = dashes.length;
-        if(dashCount < 1 || dashCount > 3) return null;
-        let val = dashCount;
-        let meaning = valueNames[val]?.[node] || "неизвестно";
-        return `${nodeNames[node]}: ${meaning} | сигнал: ${dots} ${dashes}`;
+        panel.appendChild(group);
     }
-
-    function getTactileFromNodeVal(node, val) {
-        const zoneMap = { N1: "ГОЛОВА/ШЛЕМ", N2: "ПЛЕЧО", N3: "ГРУДЬ", N4: "ЖИВОТ/РЕМЕНЬ", N5: "БЕДРО" };
-        return `${zoneMap[node]}, ${val} ${val===1?"удар":"удара"}`;
-    }
-
-    // UI элементы
-    const encoderBlock = document.getElementById('encoderBlock');
-    const decoderBlock = document.getElementById('decoderBlock');
-    const modeEncoderBtn = document.getElementById('modeEncoderBtn');
-    const modeDecoderBtn = document.getElementById('modeDecoderBtn');
-    const pulseDisplay = document.getElementById('pulseDisplay');
-    const translatedDisplay = document.getElementById('translatedDisplay');
-    const tactileDisplay = document.getElementById('tactileDisplay');
-    const decoderResult = document.getElementById('decoderResult');
-
-    let lastNode = null, lastVal = null;
-
-    function updateEncoderDisplay(node, val) {
-        if(!node || !val) return;
-        lastNode = node; lastVal = val;
-        const pulse = buildPulse(node, val);
-        const meaning = valueNames[val][node];
-        pulseDisplay.innerText = pulse;
-        translatedDisplay.innerHTML = `📨 Сообщение: <strong>${nodeNames[node]}: ${meaning}</strong>`;
-        tactileDisplay.innerHTML = `✋ Тактильный слой (VIS-QUINT): ${getTactileFromNodeVal(node, val)} (${val} ударов по зоне ${nodeNames[node]})`;
-    }
-
-    // обработчики для кнопок значений
-    document.querySelectorAll('.val-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const val = parseInt(btn.dataset.val);
-            const parentDiv = btn.closest('.val-buttons');
-            const node = parentDiv.dataset.node;
-            updateEncoderDisplay(node, val);
-            // визуальный активный стиль мелкий
-            parentDiv.querySelectorAll('.val-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-        });
+    // Активация зон манекена
+    document.querySelectorAll('.zone').forEach(zone => {
+        zone.onclick = () => {
+            const node = zone.dataset.node;
+            const current = currentNode;
+            updateUI(node, currentVal);
+            document.querySelectorAll(`.val-buttons[data-node="${node}"] .val-btn`).forEach(b => b.classList.remove('active'));
+            document.querySelectorAll(`.val-buttons[data-node="${node}"] .val-btn`)[currentVal-1]?.classList.add('active');
+        };
     });
 
-    // команды
-    document.querySelectorAll('.cmd-quick').forEach(cmdBtn => {
-        cmdBtn.addEventListener('click', () => {
-            const cmd = cmdBtn.dataset.cmd;
-            if(cmd === 'COPY') { pulseDisplay.innerText = ".. .. .."; translatedDisplay.innerHTML = "✅ ПРИНЯТО (COPY) — подтверждение получения"; tactileDisplay.innerHTML = "✋ COPY можно передать тремя двойными хлопками"; }
-            else if(cmd === 'CANCEL') { pulseDisplay.innerText = "... ... ..."; translatedDisplay.innerHTML = "❌ ОТМЕНА (CANCEL) — сессия сброшена"; tactileDisplay.innerHTML = "✋ Жест X руками"; }
-            else if(cmd === 'REPEAT') { pulseDisplay.innerText = ".... ...."; translatedDisplay.innerHTML = "🔄 ПОВТОРИТЕ (REPEAT)"; tactileDisplay.innerHTML = "✋ Жест повтора"; }
-            else if(cmd === 'POLICE') { pulseDisplay.innerText = ". .. ..."; translatedDisplay.innerHTML = "🚔 Ведомственный заголовок: ПОЛИЦИЯ"; tactileDisplay.innerHTML = "Только бинарный слой"; }
-            else if(cmd === 'MEDIC') { pulseDisplay.innerText = ".. ... ."; translatedDisplay.innerHTML = "🩺 Ведомственный заголовок: МЕДИКИ"; tactileDisplay.innerHTML = "Контекст медпомощи"; }
-            else if(cmd === 'FIRE') { pulseDisplay.innerText = "... . .."; translatedDisplay.innerHTML = "🔥 Ведомственный заголовок: ПОЖАРНЫЕ"; tactileDisplay.innerHTML = "Пожарный контекст"; }
-            else { updateEncoderDisplay(lastNode, lastVal); }
-        });
-    });
+    updateUI('N2',2);
+    document.querySelectorAll('.val-btn')[3]?.classList.add('active');
 
-    // Декодер
-    function decodePulse() {
-        const raw = document.getElementById('pulseInput').value.trim();
-        if(!raw) { decoderResult.innerText = "❌ Введите код, например .. ---"; return; }
-        const translation = translatePulseToText(raw);
-        if(translation) decoderResult.innerText = `✅ Декодировано: ${translation}`;
-        else decoderResult.innerText = `⚠️ Не распознано: "${raw}". Формат: точки пробел тире (пример: .. ---)`;
+    // Звуковой плеер (Web Audio)
+    let audioCtx = null;
+    function playPulse(pulseStr) {
+        if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const parts = pulseStr.split(' ');
+        if(parts.length !== 2) return;
+        const dots = parts[0];
+        const dashes = parts[1];
+        let now = audioCtx.currentTime;
+        let time = now;
+        const dotDur = 0.1;
+        const dashDur = 0.3;
+        const intraPause = 0.05;
+        const interPause = 0.2;
+        
+        for(let i=0; i<dots.length; i++) {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.frequency.value = 880;
+            gain.gain.setValueAtTime(0.3, time);
+            gain.gain.exponentialRampToValueAtTime(0.0001, time + dotDur);
+            osc.start(time);
+            osc.stop(time + dotDur);
+            time += dotDur + (i < dots.length-1 ? intraPause : interPause);
+        }
+        for(let i=0; i<dashes.length; i++) {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.frequency.value = 440;
+            gain.gain.setValueAtTime(0.4, time);
+            gain.gain.exponentialRampToValueAtTime(0.0001, time + dashDur);
+            osc.start(time);
+            osc.stop(time + dashDur);
+            time += dashDur + (i < dashes.length-1 ? intraPause : 0);
+        }
+        if(audioCtx.state === 'suspended') audioCtx.resume();
     }
-    document.getElementById('decodePulseBtn').addEventListener('click', decodePulse);
-    document.getElementById('decodeTactileBtn').addEventListener('click', () => {
-        let tactile = document.getElementById('tactileInput').value.toLowerCase();
-        let found = false;
-        for(let node of Object.keys(nodeNames)) {
-            const zonePatterns = { N1: /голов|шлем/, N2: /плеч/, N3: /груд|chest/, N4: /живот|ремень|belt/, N5: /бедр|thigh/ };
-            for(let [n, pattern] of Object.entries(zonePatterns)) {
-                if(pattern.test(tactile) && n === node) {
-                    let matchVal = tactile.match(/(\d)/);
-                    if(matchVal && [1,2,3].includes(parseInt(matchVal[1]))) {
-                        let val = parseInt(matchVal[1]);
-                        let meaning = valueNames[val][node];
-                        decoderResult.innerText = `🤚 VIS-QUINT: ${nodeNames[node]} (${nodePulse[node]}) → Значение ${val}: ${meaning}`;
-                        found = true;
-                        break;
-                    } else { decoderResult.innerText = `✋ Зона распознана: ${nodeNames[node]}, но укажи количество ударов (1,2,3).`; found=true; break; }
-                }
-                if(found) break;
+
+    document.getElementById('playSoundBtn').onclick = () => {
+        const pulse = document.getElementById('pulseDisplay').innerText;
+        playPulse(pulse);
+    };
+
+    // Single Dash Rule
+    document.getElementById('interruptBtn').onclick = () => {
+        document.getElementById('textDisplay').innerHTML = "⚠️ СВЯЗЬ ПРЕРВАНА!<br>Принято значение 1 — МАКСИМАЛЬНАЯ ОПАСНОСТЬ (Single Dash Rule)";
+        document.getElementById('pulseDisplay').innerText = "--- прервано ---";
+    };
+
+    // Тренировка тройного резервирования
+    let trainingActive = false;
+    let trainingPacket = null;
+    let trainingAttempts = [];
+    document.getElementById('startTraining').onclick = () => {
+        trainingActive = true;
+        trainingAttempts = [];
+        const nodes = ['N1','N2','N3','N4','N5'];
+        const randomNode = nodes[Math.floor(Math.random()*nodes.length)];
+        const randomVal = Math.floor(Math.random()*3)+1;
+        trainingPacket = { node: randomNode, val: randomVal };
+        const pulse = nodePulse[randomNode] + " " + valueDash[randomVal];
+        document.getElementById('trainingPrompt').innerHTML = `🎯 Передай пакет: ${pulse} (повтори 3 раза)`;
+        document.getElementById('trainingResult').innerHTML = "";
+        document.getElementById('trainingReply').disabled = false;
+    };
+    document.getElementById('trainingReply').onclick = () => {
+        if(!trainingActive) return;
+        trainingAttempts.push({ node: currentNode, val: currentVal });
+        const remaining = 3 - trainingAttempts.length;
+        document.getElementById('trainingResult').innerHTML = `Попытка ${trainingAttempts.length}/3. Осталось: ${remaining}`;
+        if(trainingAttempts.length === 3) {
+            let correct = 0;
+            for(let att of trainingAttempts) {
+                if(att.node === trainingPacket.node && att.val === trainingPacket.val) correct++;
             }
-            if(found) break;
+            if(correct >= 2) {
+                document.getElementById('trainingResult').innerHTML = `✅ ПАКЕТ ПРИНЯТ (2 из 3 совпали)! Поздравляю, тройное резервирование работает.`;
+            } else {
+                document.getElementById('trainingResult').innerHTML = `❌ Ошибка: только ${correct} из 3 совпали. Пакет отклонён. Попробуй снова.`;
+            }
+            trainingActive = false;
+            document.getElementById('trainingReply').disabled = true;
         }
-        if(!found) decoderResult.innerText = `⚠️ Не удалось распознать. Пример: "грудь 2", "плечо 3", "голова 1"`;
-    });
+    };
 
-    // Сценарии + Chaining
-    function chainLog(message) {
+    // Сценарии
+    function chainLog(msg) {
         const logDiv = document.getElementById('chainLog');
-        logDiv.innerHTML = message + '<br>' + logDiv.innerHTML;
-        if(logDiv.children.length > 6) logDiv.innerHTML = message + '<br>' + Array.from(logDiv.children).slice(0,5).map(c=>c.innerHTML).join('<br>');
+        logDiv.innerHTML = msg + '<br>' + logDiv.innerHTML;
+        if(logDiv.children.length > 6) logDiv.innerHTML = msg + '<br>' + Array.from(logDiv.children).slice(0,5).map(c=>c.innerHTML).join('<br>');
     }
-    document.getElementById('scenarioFire').addEventListener('click', () => {
-        updateEncoderDisplay('N3',3);
-        chainLog(`🔥 СЦЕНАРИЙ: N3-V3 (ВЗРЫВ/ОГОНЬ) + затем N5-V2 (ФЛАНГ) — передай цепочку с паузой и COPY в конце. Сигнал: ${buildPulse('N3',3)} | ${buildPulse('N5',2)}`);
-    });
-    document.getElementById('scenarioMedic').addEventListener('click', () => {
-        updateEncoderDisplay('N3',1);
-        chainLog(`🆘 МЕДИКИ (HEADER .. ... .) + N3-V1 (НУЖНА ПОМОЩЬ) — требуется подтверждение COPY`);
-    });
-    document.getElementById('scenarioRetreat').addEventListener('click', () => {
-        updateEncoderDisplay('N1',3);
-        chainLog(`⬅️ ОТХОД: N1-V3 (ОЖИДАНИЕ) + N5-V3 (ТЫЛ). Рекомендуется повторить дважды.`);
-    });
-    document.getElementById('clearChain').addEventListener('click', () => {
-        document.getElementById('chainLog').innerHTML = "📡 Цепочка сообщений очищена. Нажми сценарий для демонстрации.";
-        if(lastNode && lastVal) updateEncoderDisplay(lastNode, lastVal);
-        else pulseDisplay.innerText = "— · —";
-    });
-
-    // переключение режимов
-    modeEncoderBtn.addEventListener('click', () => {
-        encoderBlock.style.display = 'block';
-        decoderBlock.style.display = 'none';
-        modeEncoderBtn.style.background = '#3b82f6';
-        modeDecoderBtn.style.background = '#334155';
-    });
-    modeDecoderBtn.addEventListener('click', () => {
-        encoderBlock.style.display = 'none';
-        decoderBlock.style.display = 'block';
-        modeDecoderBtn.style.background = '#3b82f6';
-        modeEncoderBtn.style.background = '#334155';
-    });
-    // начальное состояние
-    updateEncoderDisplay('N2',2);
-    document.querySelector('.val-btn[data-val="2"]').classList.add('active');
+    document.getElementById('scenarioFire').onclick = () => {
+        updateUI('N3',3);
+        chainLog(`🔥 СЦЕНАРИЙ: N3-V3 (ВЗРЫВ/ОГОНЬ) + N5-V2 (ФЛАНГ) — передай цепочку с паузой и COPY.`);
+    };
+    document.getElementById('scenarioMedic').onclick = () => {
+        updateUI('N3',1);
+        chainLog(`🆘 МЕДИКИ (заголовок .. ... .) + N3-V1 (НУЖНА ПОМОЩЬ) — подтверди COPY.`);
+    };
+    document.getElementById('scenarioRetreat').onclick = () => {
+        updateUI('N1',3);
+        chainLog(`⬅️ ОТХОД: N1-V3 (ОЖИДАНИЕ) + N5-V3 (ТЫЛ). Повтори дважды.`);
+    };
 </script>
 </body>
 </html>
