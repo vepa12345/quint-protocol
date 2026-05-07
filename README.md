@@ -41,7 +41,8 @@ Used for transmission via light, sound, vibration, or pressure.
 * **Dash:** Sustained "hold".
 * **Intra-node pause:** Short break (equal to one dot).
 * **Inter-node pause:** Long break (clear silence to separate the category from the data).
-* **Example:** `.. ---` (Node 2, Value 3) = **RANGE: FAR**
+* **For voice communications**, use the direct names (e.g., **DISTANCE: FAR**) instead of QUINT codes like **N2-V3**.
+* **Example:** `.. ---` = **DISTANCE: FAR**.
 
 ### VIS-QUINT (Visual/Tactile Layer)
 Transmission via palm strikes to the chest.
