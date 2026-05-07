@@ -8,7 +8,7 @@ We are used to relying on instant communication. But in the chaos of a man-made 
 Under stress, the human voice becomes an unreliable tool. Panic, shortness of breath, and ambient noise turn an important report into an unintelligible stream of words. Existing systems (like Morse code or complex sign languages) require lengthy training and a high degree of concentration, both of which disappear under the influence of adrenaline.
 
 ## The Solution: QUINT — Survival Architecture
-**QUINT** is more than just a code; it is "middleware" for human communication in extreme environments. It is a fault-tolerant protocol designed to transmit critical information where every second counts.
+**QUINT** is more than just a code; it is "middleware" for human communication in extreme environments. It is a fault-tolerant protocol designed to transmit critical information where every second counts. **This document is for rescue team commanders, instructors, and those who make decisions about implementing QUINT within a unit.**
 
 The protocol operates on three layers of reality:
 1.  **Binary (PULSE-QUINT):** Transmission via light, sound, or vibration.
