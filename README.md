@@ -51,3 +51,11 @@ Transmission via palm strikes to the chest.
 * **Medic:** `.. ... .` (2-3-1 sequence).
 * **Firefighter:** `... . ..` (3-1-2 sequence).
 * **SALAM (Greeting)**: Closed fist to heart. Non-tactical, used for psychological connection ("I'm okay / Good luck").
+
+## 6. Stream Chaining & Overlay
+To describe complex situations, the protocol uses a method of sequential attribute summation ("chaining").
+
+* **Mechanism:** Nodes are transmitted one after another with a short pause between them.
+* **Example:** To transmit "Firefight" (N1-V1) and "Medic needed" (Medic Header + N3-V1).
+* **Overlay Logic:** If one zone (e.g., Threat N3) involves multiple factors like both a firearm and fire, the operator transmits Node N3 with Value 1, pauses, and then transmits Node N3 again with Value 3.
+* **Stream Termination:** Any multi-layered transmission must end with the **COPY** signal (`.. .. ..`) so the receiver knows the sequence is complete.
