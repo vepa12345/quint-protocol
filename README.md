@@ -1,24 +1,36 @@
-# QUINT v4.1 (Hydra-Integrated)
+# QUINT v 5.0 (Multilayer Protocol)
 
-**QUINT** is a fault-tolerant tactical communication protocol designed for high-interference (EW), zero-visibility, or silence-only environments.
+**QUINT** is a fault-tolerant communication protocol designed to **save lives** in extreme environments: high interference, zero visibility, silent operations, or total radio failure.
 
-## 1. Core Concept & License
-* **Purpose**: Reliable data transmission via visual, binary, and tactile layers.
-* **License**: MIT.
-* **Resilience Rule**: The "One Dash" Rule — if transmission is interrupted, the receiver must assume a value of "1" (Highest danger/involvement).
+## Purpose
+The protocol is engineered for emergency services (paramedics, firefighters, rescue teams) as a vital tool for transmitting critical information in disaster zones, under rubble, or during industrial catastrophes where every second counts.
 
-## 2. Core Matrix (Five Nodes)
-The protocol uses five markers (nodes), each with three levels of intensity.
+## Key Principles
+* **Reliability:** Data transmission through visual, binary, and tactile layers.
+* **Survivability:** The "Single Dash Rule" — if transmission is interrupted, the receiving party must default to Value "1" (maximum danger/engagement priority).
+* **Precision:** Triple Redundancy — a data packet is considered valid if 2 out of 3 iterations match.
+* **Adaptability:** A system of departmental headers modifies the context of the message based on the service (Medical, Fire, Police).
 
-| Node (Marker) | Value 1 ( - ) | Value 2 ( -- ) | Value 3 ( --- ) |
-| :--- | :--- | :--- | :--- |
-| **N1: STATUS** | CONTACT (Combat) | ALARM (Alert) | STILL (Silence) |
-| **N2: RANGE** | CLOSE (0-30m) | THROW (Distance) | FAR (Long Range) |
-| **N3: THREAT** | GUN (Firearm) | KNIFE (Melee) | FIRE / BOOM |
-| **N4: LEVEL** | INVOLVED (Engaged) | DETECTED (Visual) | WATCHING (Observation) |
-| **N5: EYES** | FRONT | SIDE (Flank) | BACK (Rear) |
+## 1. Concept and Licensing
+* **Objective:** Robust data transmission via visual, binary, and tactile layers.
+* **License:** MIT.
+* **Survivability Rule:** "Single Dash Rule" — in case of interruption, the receiver assumes Value "1" (maximum threat/involvement).
+
+## 2. Base Matrix (5 Nodes)
+The system utilizes 5 zones (markers) or pulses. Each category features 3 intensity levels.
+
+| Node (Zone) | Value 1 | Value 2 | Value 3 |
+|:---|:---|:---|:---|
+| **PULSE** | `-` | `--` | `---` |
+| **N1: STATUS** `.` | ACTIVE (On-site) | ALARM (Alert) | STANDBY |
+| **N2: DISTANCE** `..` | CLOSE (0-30m) | MEDIUM | FAR |
+| **N3: THREAT** `...` | ASSISTANCE NEEDED | TRAUMA | EXPLOSION / FIRE |
+| **N4: LEVEL** `....` | ENGAGED | DETECTED | OBSERVING |
+| **N5: SECTOR** `.....` | FRONT | FLANK | REAR |
 
 ## 3. Transport Layers
+1. **PULSE-QUINT (Binary):** Transmission via light, sound, vibration, or pressure (using dots and dashes).
+2. **VIS-QUINT (Tactile):** Transmission via physical contact on specific body zones: Head (N1), Shoulder (N2), Chest (N3), Stomach (N4), and Thigh (N5).
 
 ### PULSE-QUINT (Binary Layer)
 Used for transmission via light, sound, vibration, or pressure.
@@ -58,4 +70,7 @@ To describe complex situations, the protocol uses a method of sequential attribu
 * **Mechanism:** Nodes are transmitted one after another with a short pause between them.
 * **Example:** To transmit "Firefight" (N1-V1) and "Medic needed" (Medic Header + N3-V1).
 * **Overlay Logic:** If one zone (e.g., Threat N3) involves multiple factors like both a firearm and fire, the operator transmits Node N3 with Value 1, pauses, and then transmits Node N3 again with Value 3.
+
+---
+*QUINT: When words fail, communication continues.*
 * **Stream Termination:** Any multi-layered transmission must end with the **COPY** signal (`.. .. ..`) so the receiver knows the sequence is complete.
